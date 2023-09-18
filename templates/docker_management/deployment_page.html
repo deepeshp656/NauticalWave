@@ -1,0 +1,29 @@
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.workspace.label_tag }} {{ form.workspace }}
+        {{ form.env_file.label_tag }} {{ form.env_file }}
+        {{ form.git_branch.label_tag }} {{ form.git_branch }}
+        {{ form.deployment_method.label_tag }} {{ form.deployment_method }}
+        <button type="submit">Deploy</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#id_workspace').change(function() {
+                var workspaceId = $(this).val();
+                var url = `/get_git_branches/${workspaceId}/`;
+
+                $.getJSON(url, function(data) {
+                    var gitBranchSelect = $('#id_git_branch');
+                    gitBranchSelect.empty();
+
+                    $.each(data.branches, function(index, branch) {
+                        gitBranchSelect.append($('<option></option>').val(branch).text(branch));
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

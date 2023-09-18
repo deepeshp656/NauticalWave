@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to NauticalWave</h1>
+    <p>This is the home page of your application. You can add any content you'd like here.</p>
+    
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}! You can access your <a href="{% url 'workspaces' %}">workspaces</a> here.</p>
+    {% else %}
+        <p>Please <a href="{% url 'login' %}">log in</a> to access your workspaces.</p>
+    {% endif %}
+</div>
+{% endblock %}

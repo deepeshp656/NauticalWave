@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Welcome to NauticalWave</h1>
+<p>Here are your workspaces:</p>
+<ul>
+    {% if workspaces %}
+        {% for workspace in workspaces %}
+            <li><a href="{% url 'workspace' team_id=workspace.id %}">{{ workspace.name }}</a></li>
+        {% endfor %}
+    {% else %}
+        <li>No workspaces found.</li>
+    {% endif %}
+</ul>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Docker Containers{% endblock %}
+
+{% block content %}
+    <h1>Docker Containers</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Ports</th>
+                <th>Labels</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for container in containers %}
+                <tr>
+                    <td>{{ container.name }}</td>
+                    <td>{{ container.ports }}</td>
+                    <td>{{ container.labels }}</td>
+                    <td>{{ container.status }}</td>
+                    <td>
+                        <form action="{% url 'start_container' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="container_name" value="{{ container.name }}">
+                            <button type="submit">Start</button>
+                        </form>
+                        <form action="{% url 'stop_container' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="container_name" value="{{ container.name }}">
+                            <button type="submit">Stop</button>
+                        </form>
+                        <form action="{% url 'delete_container' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="container_name" value="{{ container.name }}">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
